@@ -56,7 +56,7 @@ func serviceMetaData(config *dockerapi.Config, port string) map[string]string {
 }
 
 func servicePort(container *dockerapi.Container, port dockerapi.Port, published []dockerapi.PortBinding) ServicePort {
-	var hp, hip, ep, ept string
+	var hp, hip, ep, ept, rancherip, tmp  string
 	if len(published) > 0 {
 		hp = published[0].HostPort
 		hip = published[0].HostIP
@@ -71,11 +71,19 @@ func servicePort(container *dockerapi.Container, port dockerapi.Port, published 
 	} else {
 		ept = "tcp"  // default
 	}
+
+	tmp = container.Config.Labels["io.rancher.container.ip"]
+	if tmp!= ""{
+		rancherip = strings.Split(tmp, "/")[0]
+	}else {
+		rancherip = container.NetworkSettings.IPAddress
+	}
 	return ServicePort{
 		HostPort:          hp,
 		HostIP:            hip,
 		ExposedPort:       ep,
 		ExposedIP:         container.NetworkSettings.IPAddress,
+		RancherIP:	   rancherip,
 		PortType:          ept,
 		ContainerID:       container.ID,
 		ContainerHostname: container.Config.Hostname,

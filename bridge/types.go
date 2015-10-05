@@ -25,6 +25,7 @@ type Config struct {
 	RefreshTtl      int
 	RefreshInterval int
 	DeregisterCheck string
+	Rancher		bool
 }
 
 type Service struct {
@@ -49,6 +50,7 @@ type ServicePort struct {
 	HostIP            string
 	ExposedPort       string
 	ExposedIP         string
+	RancherIP         string
 	PortType          string
 	ContainerHostname string
 	ContainerID       string

@@ -18,6 +18,7 @@ var versionChecker = usage.NewChecker("registrator", Version)
 
 var hostIp = flag.String("ip", "", "IP for ports mapped to the host")
 var internal = flag.Bool("internal", false, "Use internal ports instead of published ones")
+var rancher = flag.Bool("rancher", false, "Use rancher address instead of expose address or host address")
 var refreshInterval = flag.Int("ttl-refresh", 0, "Frequency with which service TTLs are refreshed")
 var refreshTtl = flag.Int("ttl", 0, "TTL for services (default is no expiry)")
 var forceTags = flag.String("tags", "", "Append tags for all registered services")
@@ -72,6 +73,7 @@ func main() {
 	b, err := bridge.New(docker, flag.Arg(0), bridge.Config{
 		HostIp:          *hostIp,
 		Internal:        *internal,
+		Rancher:	 *rancher,
 		ForceTags:       *forceTags,
 		RefreshTtl:      *refreshTtl,
 		RefreshInterval: *refreshInterval,

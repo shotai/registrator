@@ -217,6 +217,9 @@ func (b *Bridge) newService(port ServicePort, isgroup bool) *Service {
 		service.IP = port.HostIP
 		p, _ = strconv.Atoi(port.HostPort)
 	}
+	if b.config.Rancher == true {
+		service.IP = port.RancherIP
+	}
 	service.Port = p
 
 	if port.PortType == "udp" {
